@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>SSE</title>
+</head>
+<body>
+    <h1>SSE</h1>
+    <button id="close">Close connection</button>
+    <ul id="list"></ul>
+    <script>
+        const sseSource = new EventSource('http://localhost:3000/event-stream');
+
+        sseSource.onopen = (e) => {
+            console.log(e);
+            console.log('Connected');
+        };
+
+        sseSource.onerror = (e) => {
+            console.log('Error', e);
+        };
+
+        sseSource.onmessage = (e) => {
+            console.log(e);
+            const messageData = e.data;
+            const newEl = document.createElement('li');
+            newEl.innerHTML = messageData;
+            document.querySelector('#list').appendChild(newEl);
+        };
+
+        document.querySelector('#close').addEventListener('click', () => {
+            if (sseSource) {
+                sseSource.close();
+                console.log('Connection closed!');
+            }
+        });
+    </script>
+</body>
+</html>

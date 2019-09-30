@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>WebSocket Test</title>
+</head>
+<body>
+    <textarea name="" id="message" cols="30" rows="10"></textarea><br/>
+    <button id="sendData">Send data to server</button>
+    <script>
+        function handleWebSocket() {
+            var socket = new WebSocket('ws://localhost:1337');
+
+            // Show a connected message when the WebSocket is opened.
+            socket.onopen = function(event) {
+                console.log('WebSocket is connected.');
+            };
+
+            socket.onmessage = function(event) {
+                var message = event.data;
+                console.log(message);
+            };
+            
+            socket.onerror = function(error) {
+                console.log('WebSocket Error: ' + error);
+            };
+
+            socket.onclose = function(event) {
+                console.log('WebSocket down.');
+            };
+
+            return socket;
+        }
+
+        window.socket = handleWebSocket();
+
+        document.querySelector('#sendData').addEventListener('click', () => {
+            if (window.socket) {
+                window.socket.send(document.querySelector('#message').value);
+            }
+        });
+    </script>
+</body>
+</html>

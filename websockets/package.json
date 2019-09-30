@@ -1,0 +1,17 @@
+{
+  "name": "websockets",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "websocket": "^1.0.30",
+    "concurrently": "^4.1.2",
+    "live-server": "^1.2.1",
+    "nodemon": "^1.19.3"
+  },
+  "scripts": {
+    "start:server": "nodemon index.js",
+    "start:app": "live-server",
+    "start": "concurrently npm:start:server npm:start:app"
+  }
+}
